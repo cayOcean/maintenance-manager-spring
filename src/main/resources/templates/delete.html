@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Excluir Solicitação</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Manutenção</a>
+    </div>
+  </nav>
+
+  <main class="container mt-4">
+    <h1>Excluir Solicitação</h1>
+
+    <p>Tem certeza que deseja excluir a solicitação do item <strong th:text="${manutencao.item}"></strong> feita por <strong th:text="${manutencao.solicitante}"></strong>?</p>
+
+    <form method="post">
+      <button type="submit" class="btn btn-danger">Excluir</button>
+      <a th:href="@{/manutencoes}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </main>
+</body>
+</html>
