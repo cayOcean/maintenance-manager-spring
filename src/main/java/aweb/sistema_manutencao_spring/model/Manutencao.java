@@ -1,15 +1,10 @@
 package sistema_manutencao_spring.model;
 
 import java.time.LocalDateTime;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,36 +13,36 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Manutencao {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Identificador da manutenção
+    private Long id;
 
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(nullable = false, length = 100)
-    private String solicitante; // Quem abriu o chamado
+    private String solicitante;
 
     @NotBlank
     @Size(min = 5, max = 255)
     @Column(nullable = false, length = 255)
-    private String descricaoProblema; // Descrição do defeito
+    private String descricaoProblema;
 
     @NotBlank
     @Size(min = 2, max = 100)
     @Column(nullable = false, length = 100)
-    private String item; // Equipamento ou item do chamado
+    private String item;
 
     @NotNull
     @DateTimeFormat(iso = ISO.DATE_TIME)
     @Column(nullable = false, updatable = false)
-    private LocalDateTime dataHoraSolicitacao = LocalDateTime.now(); // Momento da abertura
+    private LocalDateTime dataHoraSolicitacao = LocalDateTime.now();
 
     @DateTimeFormat(iso = ISO.DATE_TIME)
     @Column(nullable = true)
-    private LocalDateTime dataHoraConclusao; // Momento da finalização
+    private LocalDateTime dataHoraConclusao;
 }

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import sistema_manutencao_spring.model.Manutencao;
 import sistema_manutencao_spring.repository.ManutencaoRepository;
-import jakarta.validation.Valid;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -23,22 +23,22 @@ public class ManutencaoController {
     @Autowired
     private ManutencaoRepository manutencaoRepository;
 
-    // Exibe todas as solicitações de manutenção
+    // Listar todas as solicitações
     @GetMapping
     public ModelAndView list() {
         return new ModelAndView(
-            "list",
-            Map.of("manutencoes", manutencaoRepository.findAll(Sort.by("dataHoraSolicitacao").descending()))
+                "edit",
+                Map.of("manutencoes", manutencaoRepository.findAll(Sort.by("dataHoraSolicitacao").descending()))
         );
     }
 
-    // Abre o formulário de criação
+    // Tela de criação de manutenção
     @GetMapping("/create")
     public ModelAndView create() {
         return new ModelAndView("form", Map.of("manutencao", new Manutencao()));
     }
 
-    // Salva a nova solicitação
+    // Criar manutenção
     @PostMapping("/create")
     public String create(@Valid Manutencao manutencao, BindingResult result) {
         if (result.hasErrors())
@@ -49,7 +49,7 @@ public class ManutencaoController {
         return "redirect:/manutencoes";
     }
 
-    // Abre formulário de edição
+    // Tela de edição
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
         var manutencao = manutencaoRepository.findById(id);
@@ -59,16 +59,17 @@ public class ManutencaoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    // Salva alterações na solicitação
+    // Editar manutenção
     @PostMapping("/edit/{id}")
     public String edit(@Valid Manutencao manutencao, BindingResult result) {
         if (result.hasErrors())
             return "form";
+
         manutencaoRepository.save(manutencao);
         return "redirect:/manutencoes";
     }
 
-    // Abre página de confirmação de exclusão
+    // Tela de confirmação de exclusão
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Long id) {
         var manutencao = manutencaoRepository.findById(id);
@@ -78,14 +79,14 @@ public class ManutencaoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    // Deleta a solicitação
+    // Excluir manutenção
     @PostMapping("/delete/{id}")
     public String delete(Manutencao manutencao) {
         manutencaoRepository.delete(manutencao);
         return "redirect:/manutencoes";
     }
 
-    // Marca a solicitação como finalizada
+    // Finalizar manutenção
     @PostMapping("/finish/{id}")
     public String finish(@PathVariable Long id) {
         var optionalManutencao = manutencaoRepository.findById(id);

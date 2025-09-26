@@ -1,11 +1,8 @@
-package sistema_manutencao_spring.controller;
-
+package sistema_manutencao_spring.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import sistema_manutencao_spring.model.Manutencao;
 
-import br.com.aweb.maintenance_manager_spring.model.Manutencao;
-
-@Repository
 public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
+
 }
