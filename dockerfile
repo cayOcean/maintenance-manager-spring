@@ -1,31 +1,26 @@
 # Etapa 1: Build do projeto
-FROM eclipse-temurin:17-jdk AS build
+FROM eclipse-temurin:21-jdk AS build
 
-# Define diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos do Maven Wrapper e do projeto
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src ./src
+# Copia todos os arquivos do projeto
+COPY . .
 
-# Dá permissão para o mvnw
-RUN chmod +x mvnw
+# Garante permissões para o Maven Wrapper
+RUN chmod +x ./mvnw
 
-# Configura Maven Compiler Plugin para JDK compatível
-# (opcional se estiver no pom.xml, mas reforça)
+# Build do projeto ignorando os testes
 RUN ./mvnw clean package -DskipTests
 
-# Etapa 2: Imagem final para execução
-FROM eclipse-temurin:17-jdk
+# Etapa 2: Imagem final enxuta usando JRE
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-# Copia o jar gerado na etapa de build
+# Copia o jar do build anterior
 COPY --from=build /app/target/*.jar app.jar
 
-# Expõe a porta da aplicação (ajuste se necessário)
+# Expõe a porta padrão do Spring Boot
 EXPOSE 8080
 
 # Comando para rodar a aplicação
