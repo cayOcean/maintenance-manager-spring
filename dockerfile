@@ -1,27 +1,29 @@
-# Etapa 1: Build do projeto
+# Etapa 1: Build do projeto usando JDK
 FROM eclipse-temurin:21-jdk AS build
 
+# Define diretório de trabalho
 WORKDIR /app
 
 # Copia todos os arquivos do projeto
 COPY . .
 
-# Garante permissões para o Maven Wrapper
+# Garante que o Maven Wrapper tem permissão de execução
 RUN chmod +x ./mvnw
 
-# Build do projeto ignorando os testes
+# Confirma versão do Java
+RUN ./mvnw -v
+
+# Build do projeto ignorando testes
 RUN ./mvnw clean package -DskipTests
 
 # Etapa 2: Imagem final enxuta usando JRE
 FROM eclipse-temurin:21-jre
 
+# Diretório de trabalho na imagem final
 WORKDIR /app
 
-# Copia o jar do build anterior
+# Copia o jar gerado na etapa de build
 COPY --from=build /app/target/*.jar app.jar
 
-# Expõe a porta padrão do Spring Boot
-EXPOSE 8080
-
-# Comando para rodar a aplicação
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Comando para rodar o jar
+ENTRYPOINT ["java","-jar","app.jar"]
