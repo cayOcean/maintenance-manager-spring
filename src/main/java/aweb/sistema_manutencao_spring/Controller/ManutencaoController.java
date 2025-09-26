@@ -1,10 +1,10 @@
-package br.com.aweb.maintenance_manager_spring.controller;
+package sistema_manutencao_spring.controller;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import br.com.aweb.maintenance_manager_spring.model.Manutencao;
-import br.com.aweb.maintenance_manager_spring.repository.ManutencaoRepository;
+import sistema_manutencao_spring.model.Manutencao;
+import sistema_manutencao_spring.repository.ManutencaoRepository;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +23,22 @@ public class ManutencaoController {
     @Autowired
     private ManutencaoRepository manutencaoRepository;
 
-    // Listar solicitações
+    // Exibe todas as solicitações de manutenção
     @GetMapping
     public ModelAndView list() {
         return new ModelAndView(
-            "list", // nome da view (list.html ou list.jsp)
+            "list",
             Map.of("manutencoes", manutencaoRepository.findAll(Sort.by("dataHoraSolicitacao").descending()))
         );
     }
 
-    // Criar ----------------------------------->
+    // Abre o formulário de criação
     @GetMapping("/create")
     public ModelAndView create() {
         return new ModelAndView("form", Map.of("manutencao", new Manutencao()));
     }
 
+    // Salva a nova solicitação
     @PostMapping("/create")
     public String create(@Valid Manutencao manutencao, BindingResult result) {
         if (result.hasErrors())
@@ -48,7 +49,7 @@ public class ManutencaoController {
         return "redirect:/manutencoes";
     }
 
-    // Editar ----------------------------------->
+    // Abre formulário de edição
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
         var manutencao = manutencaoRepository.findById(id);
@@ -58,6 +59,7 @@ public class ManutencaoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    // Salva alterações na solicitação
     @PostMapping("/edit/{id}")
     public String edit(@Valid Manutencao manutencao, BindingResult result) {
         if (result.hasErrors())
@@ -66,7 +68,7 @@ public class ManutencaoController {
         return "redirect:/manutencoes";
     }
 
-    // Deletar ----------------------------------->
+    // Abre página de confirmação de exclusão
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Long id) {
         var manutencao = manutencaoRepository.findById(id);
@@ -76,13 +78,14 @@ public class ManutencaoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    // Deleta a solicitação
     @PostMapping("/delete/{id}")
     public String delete(Manutencao manutencao) {
         manutencaoRepository.delete(manutencao);
         return "redirect:/manutencoes";
     }
 
-    // Finalizar ----------------------------------->
+    // Marca a solicitação como finalizada
     @PostMapping("/finish/{id}")
     public String finish(@PathVariable Long id) {
         var optionalManutencao = manutencaoRepository.findById(id);

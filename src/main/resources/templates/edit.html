@@ -3,28 +3,30 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Sistema de Manutenção</title>
+  <title>Painel de Chamados</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
+  <!-- Navbar -->
   <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Manutenção</a>
+      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Chamados</a>
     </div>
   </nav>
 
   <main class="container mt-4">
-    <h1>Solicitações de Manutenção</h1>
+    <h1>Lista de Chamados</h1>
 
-    <table class="table table-striped" th:unless="${#lists.isEmpty(manutencoes)}">
+    <!-- Tabela somente se houver dados -->
+    <table class="table table-striped" th:if="${!#lists.isEmpty(manutencoes)}">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>#</th>
           <th>Solicitante</th>
           <th>Item</th>
-          <th>Descrição</th>
-          <th>Data Solicitação</th>
-          <th>Data Conclusão</th>
+          <th>Detalhes</th>
+          <th>Aberto em</th>
+          <th>Concluído em</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -35,26 +37,31 @@
           <td th:text="${m.item}">---</td>
           <td th:text="${m.descricaoProblema}">---</td>
           <td th:text="${#temporals.format(m.dataHoraSolicitacao, 'dd/MM/yyyy HH:mm')}">---</td>
-          <td th:text="${m.dataHoraConclusao != null ? #temporals.format(m.dataHoraConclusao, 'dd/MM/yyyy HH:mm') : '-'}">---</td>
+          <td th:text="${m.dataHoraConclusao == null ? '-' : #temporals.format(m.dataHoraConclusao, 'dd/MM/yyyy HH:mm')}">---</td>
 
           <td>
+            <!-- Finalizar chamado -->
             <form class="d-inline" th:action="@{/manutencoes/finish/{id}(id=${m.id})}" method="post">
               <button type="submit" class="btn btn-sm btn-primary"
-                th:classappend="${m.dataHoraConclusao}?' disabled':''">Finalizar</button>
+                th:classappend="${m.dataHoraConclusao != null} ? ' disabled' : ''">Finalizar</button>
             </form>
 
+            <!-- Editar chamado -->
             <a th:href="@{/manutencoes/edit/{id}(id=${m.id})}" class="btn btn-sm btn-secondary"
-               th:classappend="${m.dataHoraConclusao}?' disabled':''">Editar</a>
+               th:classappend="${m.dataHoraConclusao != null} ? ' disabled' : ''">Editar</a>
 
-            <a th:href="@{/manutencoes/delete/{id}(id=${m.id})}" class="btn btn-sm btn-danger">Excluir</a>
+            <!-- Excluir chamado -->
+            <a th:href="@{/manutencoes/delete/{id}(id=${m.id})}" class="btn btn-sm btn-danger">Remover</a>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <p th:if="${#lists.isEmpty(manutencoes)}">Nenhuma solicitação cadastrada.</p>
+    <!-- Mensagem caso não haja dados -->
+    <p th:unless="${!#lists.isEmpty(manutencoes)}">Nenhum chamado registrado.</p>
 
-    <a th:href="@{/manutencoes/create}" class="btn btn-primary">Nova Solicitação</a>
+    <!-- Botão para criar novo chamado -->
+    <a th:href="@{/manutencoes/create}" class="btn btn-primary">Novo Chamado</a>
   </main>
 </body>
 </html>

@@ -1,10 +1,10 @@
-package br.com.aweb.maintenance_manager_spring;
+package sistema_manutencao_spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MaintenanceManagerSpringApplicationTests {
+class SistemaManutencaoSpringApplicationTests {
 
 	@Test
 	void contextLoads() {

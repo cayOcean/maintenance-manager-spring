@@ -1,4 +1,4 @@
-package br.com.aweb.maintenance_manager_spring.model;
+package sistema_manutencao_spring.model;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity // Mapeia a classe para uma tabela no banco de dados
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -25,29 +25,29 @@ public class Manutencao {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Identificador único da solicitação
+    private Long id; // Identificador da manutenção
 
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(nullable = false, length = 100)
-    private String solicitante; // Nome de quem solicitou a manutenção
+    private String solicitante; // Quem abriu o chamado
 
     @NotBlank
     @Size(min = 5, max = 255)
     @Column(nullable = false, length = 255)
-    private String descricaoProblema; // Descrição do problema que gerou a solicitação
+    private String descricaoProblema; // Descrição do defeito
 
     @NotBlank
     @Size(min = 2, max = 100)
     @Column(nullable = false, length = 100)
-    private String item; // Item que precisa de manutenção (ex: "Impressora HP 2130")
+    private String item; // Equipamento ou item do chamado
 
     @NotNull
     @DateTimeFormat(iso = ISO.DATE_TIME)
     @Column(nullable = false, updatable = false)
-    private LocalDateTime dataHoraSolicitacao = LocalDateTime.now(); // Data e hora da abertura
+    private LocalDateTime dataHoraSolicitacao = LocalDateTime.now(); // Momento da abertura
 
     @DateTimeFormat(iso = ISO.DATE_TIME)
     @Column(nullable = true)
-    private LocalDateTime dataHoraConclusao; // Quando o técnico finalizou a manutenção
+    private LocalDateTime dataHoraConclusao; // Momento da finalização
 }

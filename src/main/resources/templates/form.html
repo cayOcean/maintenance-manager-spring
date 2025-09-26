@@ -3,48 +3,55 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title th:unless="${manutencao.id}">Nova Solicitação</title>
-  <title th:if="${manutencao.id}">Editar Solicitação</title>
+  <!-- Título muda conforme operação -->
+  <title th:unless="${manutencao.id}">Cadastro de Chamado</title>
+  <title th:if="${manutencao.id}">Atualização de Chamado</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
+  <!-- Navegação principal -->
   <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Manutenção</a>
+      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Chamados</a>
     </div>
   </nav>
 
   <main class="container mt-4">
-    <h1 th:unless="${manutencao.id}">Nova Solicitação</h1>
-    <h1 th:if="${manutencao.id}">Editar Solicitação</h1>
+    <h1 th:unless="${manutencao.id}">Cadastro de Chamado</h1>
+    <h1 th:if="${manutencao.id}">Atualização de Chamado</h1>
 
+    <!-- Formulário -->
     <form method="post" th:object="${manutencao}">
+      <!-- Campo solicitante -->
       <div class="mb-3">
-        <label for="solicitante" class="form-label">Solicitante</label>
+        <label for="solicitante" class="form-label">Nome do Solicitante</label>
         <input type="text" class="form-control" id="solicitante" th:field="*{solicitante}"/>
         <ul>
           <li th:each="error : ${#fields.errors('solicitante')}" th:text="${error}" class="text-danger"></li>
         </ul>
       </div>
 
+      <!-- Campo item -->
       <div class="mb-3">
-        <label for="item" class="form-label">Item</label>
+        <label for="item" class="form-label">Equipamento / Item</label>
         <input type="text" class="form-control" id="item" th:field="*{item}"/>
         <ul>
           <li th:each="error : ${#fields.errors('item')}" th:text="${error}" class="text-danger"></li>
         </ul>
       </div>
 
+      <!-- Campo descrição -->
       <div class="mb-3">
-        <label for="descricaoProblema" class="form-label">Descrição do Problema</label>
+        <label for="descricaoProblema" class="form-label">Detalhes do Problema</label>
         <textarea class="form-control" id="descricaoProblema" rows="3" th:field="*{descricaoProblema}"></textarea>
         <ul>
           <li th:each="error : ${#fields.errors('descricaoProblema')}" th:text="${error}" class="text-danger"></li>
         </ul>
       </div>
 
-      <button type="submit" class="btn btn-primary">Salvar</button>
-      <a th:href="@{/manutencoes}" class="btn btn-secondary">Cancelar</a>
+      <!-- Botões -->
+      <button type="submit" class="btn btn-primary">Gravar</button>
+      <a th:href="@{/manutencoes}" class="btn btn-secondary">Voltar</a>
     </form>
   </main>
 </body>

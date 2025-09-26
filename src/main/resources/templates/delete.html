@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Excluir Solicitação</title>
+  <title>Remover Chamado</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
+  <!-- Barra de navegação -->
   <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Manutenção</a>
+      <a class="navbar-brand" th:href="@{/manutencoes}">Sistema de Chamados</a>
     </div>
   </nav>
 
   <main class="container mt-4">
-    <h1>Excluir Solicitação</h1>
+    <h1>Remover Chamado</h1>
 
-    <p>Tem certeza que deseja excluir a solicitação do item <strong th:text="${manutencao.item}"></strong> feita por <strong th:text="${manutencao.solicitante}"></strong>?</p>
+    <!-- Confirmação -->
+    <p>Deseja realmente remover o chamado do item <strong th:text="${manutencao.item}"></strong> solicitado por <strong th:text="${manutencao.solicitante}"></strong>?</p>
 
     <form method="post">
-      <button type="submit" class="btn btn-danger">Excluir</button>
+      <button type="submit" class="btn btn-danger">Remover</button>
       <a th:href="@{/manutencoes}" class="btn btn-secondary">Cancelar</a>
     </form>
   </main>

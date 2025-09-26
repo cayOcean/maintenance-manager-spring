@@ -1,4 +1,5 @@
-package br.com.aweb.maintenance_manager_spring.repository;
+package sistema_manutencao_spring.controller;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
